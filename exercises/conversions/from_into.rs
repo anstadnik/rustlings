@@ -33,10 +33,23 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of Person
 // Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
+fn s2p(s: &str) -> Option<Person> {
+    if let [name, age] = s.split(',').collect::<Vec<_>>()[..] {
+        if name.is_empty() {
+            return None;
+        }
+        Some(Person {
+            name: name.to_string(),
+            age: age.parse::<usize>().ok()?,
+        })
+    } else {
+        None
+    }
+}
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        s2p(s).unwrap_or_default()
     }
 }
 
